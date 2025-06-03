@@ -8,8 +8,10 @@ export const AppContent = ({
   className?: string;
 }>) => {
   return (
-    <div className={cn("flex-1 overflow-y-auto justify-center flex py-8", className)}>
-      <div className="h-full px-4 lg:px-0 lg:max-w-8/12 w-full">{children}</div>
+    <div className="py-8 overflow-y-auto">
+      <div className={cn("flex-1  justify-center flex", className)}>
+        <div className="h-full px-6 md:px-0 md:max-w-8/12 w-full">{children}</div>
+      </div>
     </div>
   );
 };

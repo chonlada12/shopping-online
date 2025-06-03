@@ -11,7 +11,7 @@ export const FavoriteHeader = () => {
 
   return (
     <header className=" h-16 bg-white border-b border-neutral-100  flex justify-center w-full p-4">
-      <div className="lg:max-w-8/12 w-full flex justify-between items-center h-full">
+      <div className="md:max-w-8/12 w-full flex justify-between items-center h-full">
         <div className="md:text-xl lg:text-2xl font-bold flex items-center gap-2">
           <Heart /> รายการโปรด
         </div>

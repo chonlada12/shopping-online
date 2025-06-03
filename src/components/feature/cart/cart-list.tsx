@@ -18,13 +18,13 @@ export const CartList = () => {
           <NoCart />
         </div>
       ) : (
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-          <div className="lg:col-span-2">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="md:col-span-2">
             {findProductCart.map((product) => {
               return <CartItem key={product.id} item={product} />;
             })}
           </div>
-          <div className=" lg:col-span-1">
+          <div className=" md:col-span-1">
             <div className="bg-neutral-50 p-4 rounded-lg w-full flex flex-col gap-4">
               <span className="text-xl text-neutral-800 font-semibold">สรุปคำสั่งซื้อ</span>
               <div>

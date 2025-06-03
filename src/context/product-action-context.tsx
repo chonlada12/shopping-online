@@ -25,10 +25,28 @@ export const ProductActionContext = createContext<ProductActionContextProps | un
 export const ProductActionProvider = ({ children }: { children: ReactNode }) => {
   const [products, setProducts] = useState<ProductDetail[]>(mockProduct);
 
+  //   // useEffect(() => {
+  //   //   console.log("Products updated:", products);
+  //   //   setLocalStorage("product-list", products);
+  //   // }, [products]);
+
+  // useEffect(() => {
+  //   initialProductList();
+  // }, []);
+
+  // const initialProductList = () => {
+  //   const initialProducts = getLocalStorage("product-list");
+  //   console.log("Initial products from localStorage:", initialProducts);
+  //   if (initialProducts && Array.isArray(initialProducts)) {
+  //     setProducts(initialProducts);
+  //   } else {
+  //     setProducts(mockProduct);
+  //   }
+  // };
+
   const addToCart = (product?: Product | ProductDetail) => {
     if (!product) {
       toast.error("ไม่พบสินค้าที่ต้องการเพิ่มลงรถเข็น", {
-        position: "bottom-center",
         duration: 2000,
         icon: <CircleCheck className=" fill-red-500 text-white" />,
       });
@@ -39,13 +57,11 @@ export const ProductActionProvider = ({ children }: { children: ReactNode }) => 
       const exists = prev.find((item) => item.id === product.id);
       if (exists) {
         console.log(exists);
-
         return prev.map((item) => (item.id === product.id ? { ...item, quantity: (item.quantity || 0) + 1 } : item));
       }
       return [...prev, { ...product, quantity: 1 }];
     });
     toast("เพิ่มสินค้าลงรถเข็นสําเร็จ", {
-      position: "bottom-center",
       duration: 2000,
       icon: <CircleCheck className=" fill-green-500 text-white" />,
     });
@@ -54,7 +70,6 @@ export const ProductActionProvider = ({ children }: { children: ReactNode }) => 
   const removeFromCart = (id: number) => {
     setProducts((prev) => prev.filter((item) => item.id !== id));
     toast("ลบสินค้าจากรถเข็นแล้ว", {
-      position: "bottom-center",
       duration: 2000,
       icon: <CircleCheck className=" fill-green-500 text-white" />,
     });
@@ -78,14 +93,12 @@ export const ProductActionProvider = ({ children }: { children: ReactNode }) => 
     setProducts((prev) => prev.map((item) => (item.id === id ? { ...item, isFavorite: isFavorite } : item)));
     if (isFavorite) {
       toast("เพิ่มสินค้าลงรายการโปรดสำเร็จ", {
-        position: "bottom-center",
         duration: 2000,
         icon: <CircleCheck className=" fill-green-500 text-white" />,
       });
       return;
     }
     toast("ลบสินค้าออกจากรายการโปรดสำเร็จ", {
-      position: "bottom-center",
       duration: 2000,
       icon: <CircleCheck className=" fill-green-500 text-white" />,
     });

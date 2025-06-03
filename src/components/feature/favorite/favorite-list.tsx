@@ -1,6 +1,6 @@
 "use client";
+import { ProductCard } from "@/components/shared";
 import { useProductAction } from "@/hook/use-product-action";
-import { FavoriteItem } from "./favorite-item";
 import { NoDataFavorite } from "./no-data";
 
 export const FavoriteList = () => {
@@ -17,7 +17,7 @@ export const FavoriteList = () => {
       ) : (
         <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-4 ">
           {findProductFavorite.map((product) => {
-            return <FavoriteItem key={product.id} product={product} />;
+            return <ProductCard key={product.id} product={product} isFavorite />;
           })}
         </div>
       )}
