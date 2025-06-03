@@ -17,14 +17,14 @@ export const Header = ({ title, isBack = false }: ProductHeaderProps) => {
   const { products } = useProductAction();
 
   const findProductFavorite = products.filter((product) => product.isFavorite);
-  const findProductCart = products.filter((product) => (product.quantity || 0) > 0);
+  const sumProductQuantity = products.reduce((acc, product) => acc + (product.quantity || 0), 0);
 
   const headerList = [
     {
       icon: <ShoppingCart className="size-6" />,
       label: "Cart",
       href: "/cart",
-      count: findProductCart.length,
+      count: sumProductQuantity,
     },
     {
       icon: <Heart className="size-6" />,

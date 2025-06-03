@@ -1,8 +1,9 @@
 "use client";
 import { Product } from "@/types/product";
+import { getLocalStorage, setLocalStorage } from "@/utils";
 import { mockProduct } from "@/utils/mock-data";
 import { CircleCheck } from "lucide-react";
-import { createContext, ReactNode, useState } from "react";
+import { createContext, ReactNode, useEffect, useState } from "react";
 import { toast } from "sonner";
 
 export interface ProductDetail extends Product {
@@ -25,24 +26,24 @@ export const ProductActionContext = createContext<ProductActionContextProps | un
 export const ProductActionProvider = ({ children }: { children: ReactNode }) => {
   const [products, setProducts] = useState<ProductDetail[]>(mockProduct);
 
-  //   // useEffect(() => {
-  //   //   console.log("Products updated:", products);
-  //   //   setLocalStorage("product-list", products);
-  //   // }, [products]);
+  useEffect(() => {
+    const a = JSON.stringify(products);
+    const b = JSON.stringify(mockProduct);
+    if (a !== b) setLocalStorage("product-list", products);
+  }, [products]);
 
-  // useEffect(() => {
-  //   initialProductList();
-  // }, []);
+  useEffect(() => {
+    initialProductList();
+  }, []);
 
-  // const initialProductList = () => {
-  //   const initialProducts = getLocalStorage("product-list");
-  //   console.log("Initial products from localStorage:", initialProducts);
-  //   if (initialProducts && Array.isArray(initialProducts)) {
-  //     setProducts(initialProducts);
-  //   } else {
-  //     setProducts(mockProduct);
-  //   }
-  // };
+  const initialProductList = () => {
+    const initialProducts = getLocalStorage("product-list");
+    if (initialProducts && Array.isArray(initialProducts)) {
+      setProducts(initialProducts);
+    } else {
+      setProducts(mockProduct);
+    }
+  };
 
   const addToCart = (product?: Product | ProductDetail) => {
     if (!product) {
@@ -56,7 +57,6 @@ export const ProductActionProvider = ({ children }: { children: ReactNode }) => 
     setProducts((prev) => {
       const exists = prev.find((item) => item.id === product.id);
       if (exists) {
-        console.log(exists);
         return prev.map((item) => (item.id === product.id ? { ...item, quantity: (item.quantity || 0) + 1 } : item));
       }
       return [...prev, { ...product, quantity: 1 }];

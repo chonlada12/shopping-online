@@ -1,16 +1,31 @@
 "use client";
-import { ProductCard } from "@/components/shared";
+import { Loading, ProductCard } from "@/components/shared";
 import { useProductAction } from "@/hook/use-product-action";
+import { useEffect, useState } from "react";
 import { NoDataFavorite } from "./no-data";
 
 export const FavoriteList = () => {
   const { products } = useProductAction();
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    setLoading(true);
+    const second = setTimeout(() => {
+      setLoading(false);
+    }, 1000);
+
+    return () => {
+      clearTimeout(second);
+    };
+  }, []);
 
   const findProductFavorite = products.filter((product) => product.isFavorite);
-  console.log("findProductFavorite", findProductFavorite);
+
   return (
     <>
-      {findProductFavorite.length < 1 ? (
+      {loading ? (
+        <Loading />
+      ) : findProductFavorite.length < 1 ? (
         <div className="flex items-center justify-center h-full">
           <NoDataFavorite />{" "}
         </div>

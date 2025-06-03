@@ -1,19 +1,34 @@
 "use client";
 
+import { Loading } from "@/components/shared";
 import { Button } from "@/components/ui";
 import { useProductAction } from "@/hook/use-product-action";
+import { useEffect, useState } from "react";
 import CartItem from "./cart-item";
 import { NoCart } from "./no-data";
 
 export const CartList = () => {
   const { products, totalPrice } = useProductAction();
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    setLoading(true);
+    const second = setTimeout(() => {
+      setLoading(false);
+    }, 1000);
+
+    return () => {
+      clearTimeout(second);
+    };
+  }, []);
 
   const findProductCart = products.filter((product) => (product.quantity || 0) > 0);
-  console.log("findProductCart", findProductCart);
 
   return (
     <>
-      {findProductCart.length === 0 ? (
+      {loading ? (
+        <Loading />
+      ) : findProductCart.length === 0 ? (
         <div className="flex items-center justify-center h-full">
           <NoCart />
         </div>
